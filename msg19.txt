@@ -1,0 +1,24 @@
+Portfolio-aware skills: suggest skills from public GitHub repositories
+
+- Optional GitHub username on the profile (validated with GitHub's own rules, in the form, the
+  schema and a database check; migration 0900).
+- "Skills from your projects" card: scans the account's public repositories and reads languages,
+  topics and descriptions (never code) to suggest skills the profile does not list. Forks and
+  archived repositories are skipped. You tick what to add; they go into the form and nothing is saved
+  until Save changes. Skills already on the profile are listed separately. Every suggestion shows the
+  repositories behind it.
+- lib/portfolio.ts is pure (language/topic/description mapping onto the skill vocabulary). The fetch
+  (lib/portfolio-queries.ts) is server-side, anonymous, 6 second timeout, validates GitHub's reply,
+  and reports GitHub's rate limit, unknown user and network errors in plain words. Only the username
+  is sent, and only to GitHub. Server action rate-limited to 6 scans a minute per account.
+- Added skills improve match scores because they land in the same skills list.
+
+Tests: 7 new unit tests (240 total); headless run against real GitHub (octocat): validation, scan,
+suggestions with evidence, adding to the form, no console errors.
+
+Not handled: GitHub's anonymous limit (60 an hour per server address) can block scans on a busy
+deployment (a token would fix it); suggestions rest on names and labels, so a repository tagged
+"react" that is empty still counts; private repositories are invisible by design; no AI reading of
+READMEs.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

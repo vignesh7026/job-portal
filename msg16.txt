@@ -1,0 +1,20 @@
+Voice profile builder
+
+- "Speak your profile" card on the profile page: talk for up to 90 seconds with the browser's own
+  speech recognition (Chrome, Edge, Safari; audio stays in the browser, only the words reach us), or
+  type. A draft appears with headline, summary and the skills you named; you tick what to keep and
+  press "Use in my profile", which fills the form. Nothing is saved until Save changes.
+- New AI kind "voice-profile": the prompt allows only what was said. Whatever the model returns,
+  skills are filtered through the transcript (lib/voice-profile.ts groundSkills), so it cannot add
+  skills you did not name. Plain fallback (filler removed, first sentence as headline, skills found by
+  whole-word match) when the model is unavailable.
+- Browsers without speech recognition get the typed path with a note.
+
+Tests: 8 new unit tests (206 total); headless run on a fresh account with real model output: only the
+spoken skills came back, form filled, no console errors.
+
+Not handled: no live microphone test in CI (headless Edge has none), so the recording path is only
+type-checked; recognition language is fixed to en-IN; mid-sentence pauses can end recognition early,
+in which case Speak can be pressed again and it continues the text.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

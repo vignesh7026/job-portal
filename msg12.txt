@@ -1,0 +1,19 @@
+Home page product demo (stageshow-style miniature of the app)
+
+- components/home/product-demo.tsx: a framed miniature built from the app's own parts (match ring,
+  status badge, company mark) and tokens. About 12 seconds, once, when it scrolls into view:
+  search -> results -> cursor picks the best match -> its page opens -> Apply -> sending -> applied
+  -> status timeline fills to Shortlisted. The cursor only moves to where the next thing happens
+  and fades out when nothing is left to do. Ends on that last frame, which is also the poster.
+- Reduced motion and first paint show the poster; no autoplay. Replay button for everyone else.
+- Decorative only: aria-hidden and inert, with a visible caption; no extra primary button.
+- Home layout: headline and search on the left, demo on the right at lg, stacked below.
+- This replaces the planned React Three Fiber hero, so no 3D dependencies are added.
+
+Tests: tsc, eslint, unit pass; headless check of the full sequence, final state, inert, no
+horizontal scroll, no console errors.
+
+Not handled: the script timing is fixed (not tied to real data); very narrow phones show the
+demo below the fold and the cursor positions are measured once per beat, not on resize.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

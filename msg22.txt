@@ -1,0 +1,27 @@
+Referral finder and reply-time line on the contacts card
+
+Referral finder ("Who could refer you" on each job page)
+- Alumni: employees at the company who went to a college on your profile (college names are
+  compared by their distinguishing words, so "PSG College of Technology" and "PSG Tech" agree),
+  most recent graduates first, each with a draft message you can copy.
+- People you know: add someone you know at the company (name and how you know them); only you can
+  see them; draft a message for them too. Up to 10 per company.
+- Drafts (lib/referral.ts) are templates built from your profile and the job, claim only skills you
+  actually have, ask for a short chat before a referral, and are never sent. There are no contact
+  details for colleagues on this site, by design.
+- Migration 1200: company_employees (readable when signed in, fictional demo data) and connections
+  (owner-only RLS, relationship limited to five kinds). SQL checks cover privacy and anon access.
+
+Reply-time line
+- The recruiter and founder card on the job page now shows how fast the company replies, from real
+  application histories on the site, with the small-sample caveat.
+
+Tests: 7 new unit tests (259 total), SQL checks, headless run: signed-out prompt, alumni match and
+exclusion, draft content, add and remove a connection, no-alumni message, reply-time line, no console
+errors.
+
+Not handled: matching only knows the colleges and employees in this database (no real social graph
+or LinkedIn import); college aliases beyond common words (for example "NIT Trichy" versus the full
+name) will not match; the employees are fictional.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

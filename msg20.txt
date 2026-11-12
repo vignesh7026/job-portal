@@ -1,0 +1,28 @@
+Anonymous, skills-first applying
+
+- Apply dialog: "Apply anonymously". Reviewers then see skills and experience first; name, college,
+  employers and the resume stay hidden until the candidate is shortlisted (and stay revealed if
+  they are rejected later). The choice is made once when applying and cannot be changed after.
+- Enforced in the database (migration 1000), not only in the page:
+  - is_blind_candidate(): any anonymous application not yet shortlisted.
+  - The profiles read policy and the resume storage policy no longer let an admin read a blind
+    candidate's profile row or resume file at all.
+  - blind_profile(application): admin-only stripped view (skills, role titles and periods, degrees
+    and years; no employers, no colleges).
+  - The anonymous column is insert-only: no update grant.
+- Admin queue shows an "Anonymous" tag and a stable pseudonym ("Candidate 46E13F"); the application
+  page shows the stripped card, "Hidden until shortlisted" for the resume, and reveals everything
+  once the status reaches Shortlisted. The candidate sees an "Applied anonymously" note.
+- lib/anonymous.ts mirrors the rule for the page (isBlind, pseudonym, years of experience).
+
+Tests: 7 new unit tests, 8 new SQL checks (admin cannot read the blind profile or resume, sees skills
+but no employer or college, candidate cannot flip the flag or call the reviewer view, revealed on
+shortlist), 1 integration test; headless run: apply anonymously, admin sees pseudonym and skills only,
+still hidden under review, name revealed after shortlisting, no console errors.
+
+Not handled: free text can still identify someone (cover note, role descriptions); the resume file
+name and path remain visible in the raw application row; blindness is per candidate, so while one
+of their anonymous applications is un-shortlisted an admin also cannot open that candidate's other
+applications' profile; there is one global admin role, no per-company reviewers.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

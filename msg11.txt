@@ -1,0 +1,18 @@
+Add Groq as the AI provider and recruiter/founder contacts on job pages
+
+- lib/ai/anthropic.ts: when GROQ_API_KEY is set, model calls go to Groq's OpenAI-compatible API
+  (openai/gpt-oss-120b, low reasoning effort); otherwise the Anthropic path is unchanged. Same
+  fallbacks, caching and "no key sent to the client" rules. Key lives in .env.local only.
+- New table company_contacts (migration 0500): one founder and one recruiter per company, readable
+  by signed-in candidates only (RLS), never writable. Seeded for all 17 companies.
+- Job page "Reach out" card: recruiter then founder with email (mailto with the role as subject)
+  and profile link; signed-out visitors see a sign-in prompt instead of any contact detail.
+- Security SQL tests: anon cannot read contacts; candidate sees 34 and cannot edit.
+
+Contacts are fictional: emails use the reserved .example TLD and profile links point at each
+company's fictional team page, so nothing reaches a real person.
+
+Tests: tsc, eslint, unit, integration, db:test pass; live check with the Groq key returned AI text
+for the summary and match explanation.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

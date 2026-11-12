@@ -1,0 +1,23 @@
+Mock interview with a timer
+
+- /practice lists the jobs you applied to (interview and shortlisted first) and saved; /practice/<slug>
+  runs five questions for that job, two minutes each, with a countdown (text label at 15 seconds, not
+  colour only). Answer by typing or with browser speech recognition. At zero the answer is submitted
+  as it stands; silence is recorded as "not answered", never scored.
+- After each answer: clarity, structure and specificity out of 5, a two-sentence reading and one
+  thing to change next time. A summary at the end gives the average, strongest and weakest area.
+  Nothing is stored.
+- New AI kinds "interview-questions" (5 tailored questions) and "interview-score". The scoring
+  prompt judges delivery, not whether claims are true. Fallbacks: a question bank built from the
+  job's skills and lib/interview.ts, a transparent heuristic scorer (sentence length, filler words,
+  situation/task/action/result markers, numbers and named tools). The UI says which one scored.
+- Navbar "Practice" link, command palette entry, and "Practise the interview" on job pages.
+
+Tests: 9 new unit tests (215 total); headless run with real model output: list order, countdown,
+scoring, forced time-out (clock sped up 50x), skip handling, summary, no console errors.
+
+Not handled: speech path not exercised (no microphone in headless Edge); answers and scores are not
+saved between sessions; the heuristic scorer is English-only and rewards the STAR shape, which not
+every question wants.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

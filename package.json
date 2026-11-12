@@ -1,0 +1,11 @@
+{
+  "name": "mini-candidate-job-portal",
+  "version": "1.0.0",
+  "description": "Candidate-facing job portal: registration, profile, job search, applications and status tracking.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/api.test.js"
+  },
+  "engines": { "node": ">=22.5" }
+}

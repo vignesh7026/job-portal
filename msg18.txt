@@ -1,0 +1,27 @@
+Career page: path timeline and a tracked learning roadmap
+
+Timeline (/career)
+- Your path from the profile: education and roles in date order, then "you are here" with an
+  estimated level (from the latest title, else total years). Each step opens to show its detail. The
+  line draws once, top to bottom (transform only; reduced motion shows it complete).
+- "Next step up": three open roles one level above, best match first, with the skills to add and a
+  "Plan for this role" link. lib/career.ts is pure (period parsing, level estimate, node ordering).
+
+Roadmap
+- Pick a target role and a length (4, 6 or 8 weeks); the AI drafts a week-by-week plan from your skill
+  gap, with a plain fallback (learn, then build, one skill at a time). Start it and tick tasks off with
+  a progress bar; progress also appears on the profile page. One active plan; starting another
+  replaces it.
+- Links are never model output: every link comes from a fixed table in lib/roadmap.ts (unknown skills
+  get roadmap.sh), and the server re-attaches them when saving whatever the client sent.
+- roadmap_items table (migration 0800): owner-only RLS, only "done" is updatable, https links only.
+  SQL tests: owner sees and ticks, task text is not editable, another candidate and anon see nothing.
+- New AI kind "roadmap". Nav link and command palette entry.
+
+Tests: 18 new unit tests (233 total), SQL security checks, headless run: timeline order, step
+detail, AI draft, link allow-list, start, tick, profile card, remove, no console errors.
+
+Not handled: no 3D (an animated 2D path instead); one plan per person; the plan does not adapt as
+your profile changes; resources are one link per skill, not a curriculum.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

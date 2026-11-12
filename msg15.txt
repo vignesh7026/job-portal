@@ -1,0 +1,19 @@
+Salary negotiator for offered applications
+
+- When an application reaches Offered, its page shows "You have an offer": a market range (25th to
+  75th percentile and median) computed from other listings on this site with the same level and job
+  type (preferring ones that share a skill), and an editable draft reply.
+- lib/negotiate.ts: pure percentile, midpoint and formatting maths plus the plain fallback draft,
+  which never invents a number. The range needs 3+ comparable listings, otherwise it says so.
+- New AI kind "negotiate" on /api/ai/[kind]: owner only, 422 unless the status is Offered. The prompt
+  may use only the figures supplied (the candidate's own offer, the range). Cached per user,
+  application, offer text and range. Falls back to the template if the model is down.
+- The range is labelled as a hint about this site, not the whole market. Nothing is sent.
+
+Tests: 8 new unit tests (198 total); headless run on an offered application: card, range, draft
+signed with the first name, no console errors.
+
+Not handled: salaries on listings are ranges set by the employer, not what people were paid; the
+candidate's current salary and location are not factored in.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

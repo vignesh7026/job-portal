@@ -1,0 +1,26 @@
+Ghost-job warnings and a Quick apply filter
+
+Ghost-job check
+- lib/ghost.ts: plain rules on three signals (first posted 45+/90+ days ago, reposted, thin text) that
+  produce "Check before applying" or "May be a stale listing", with the real numbers as reasons.
+  It never says a job is fake.
+- jobs gets first_posted_at, repost_count and a generated is_vague column (migration 0700). Seed
+  has two stale listings and one vague one so the check shows up.
+- Warning badge on list rows; a "Listing check" card on the job page (also says when nothing looks off).
+
+Quick apply
+- New "Effort > Quick apply" filter (?quick=1, round-trips through the URL, shows as a removable chip):
+  open jobs you have not applied to and match at 60% or more. Needs 3+ skills and a resume or a role;
+  otherwise it says what is missing and shows normal results.
+- A one-tap button on each row applies with no cover note, with the same Undo toast as the full flow.
+- Bug found while testing: the Undo read the wrong response shape; fixed, and a 401 now says the
+  session expired.
+
+Tests: 14 new unit tests (190 total), integration and SQL suites pass, headless run of both flows
+including apply, Undo and the signed-out path.
+
+Not handled: quick apply scans the best 400 open jobs for the other filters (fine at this size, would
+need a database-side score at scale); the 60% line is a constant, not tuned; reposts are seed data,
+nothing yet detects a repost automatically.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

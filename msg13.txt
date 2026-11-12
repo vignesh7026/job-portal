@@ -1,0 +1,19 @@
+Contact profiles: in-app pages for each recruiter and founder, with a reply-time signal
+
+- /people/<slug> (signed-in only): name, role, company, background, how to write to a recruiter or
+  founder, open roles at the company, the other contact at that company, and an editable first
+  message built from the candidate's profile and the chosen job. Nothing is sent: copy it or open
+  it in the mail app. No AI, so it cannot invent anything.
+- "View profile" on the job page now opens this page (the old link went to a fictional external site).
+- company_response(): median hours from applied to the first reply, aggregated across applications on
+  the site, callable by signed-in users only. The page words it honestly ("Small sample, treat it as
+  a hint") and says so when there is no history.
+- Migration 0600 replaces profile_url with slug and background; seed regenerated.
+
+Tests: 10 new unit tests (176 total), SQL security checks (anon cannot call the function), headless
+check of sign-in redirect, profile content, draft, mailto, unknown person 404.
+
+Not handled: contacts are still fictional demo data; the reply-time stat is only as good as the
+number of applications on this site; the first message is a template, not tuned per company.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>

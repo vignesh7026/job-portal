@@ -1,0 +1,24 @@
+Peer interview insights
+
+- "Interview experiences" card on every job page: a three-line summary of what candidates say about
+  interviewing at the company, the notes (newest first, "Show all"), and a form to add yours.
+- Anonymous by construction (migration 1100): readers use the peer_insights view, which has no
+  author column; the table itself only ever shows you your own rows. You can post only after applying
+  to a job at that company, once per company, and remove your note any time. Notes you cannot flag as
+  samples; only the seed can.
+- The summary starts as plain lines from the numbers (count, median rounds, mean difficulty, outcomes),
+  and upgrades to an AI summary once there are 2+ notes, using only what the notes say (new AI kind
+  "peer-summary"; cache key includes the note count and newest note).
+- Seed: 8 notes across 5 companies, flagged is_sample in the database and labelled "Sample note
+  (demo data)" on screen. They are illustrative, not real reviews.
+
+Tests: 5 new unit tests; SQL checks (view has no author column, other people's rows invisible, apply-first
+rule, one note per company, no self-flagged samples, only the author can delete, anon cannot read);
+headless run: signed-out prompt, sample labels, validation message, post, mine/remove, locked state
+for a company you did not apply to, no console errors.
+
+Not handled: no moderation or report button (a real deployment needs one); no editing a note (remove
+and repost); text is shown as plain text but not screened for names or abuse; the AI summary only sees
+the 12 newest notes.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
